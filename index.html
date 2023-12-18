@@ -92,8 +92,10 @@
             e.preventDefault();
 
             const form = e.target;
+            const employeeName = form['employeeName'].value;
             const parentName = form['parentName'].value;
             const phoneNumber = form['phoneNumber'].value;
+            const description = form['description'].value;
             const childrenCount = form['childrenCount'].value;
             const childrenInfoElements = form.querySelectorAll('.child-info-block');
             const children = Array.from(childrenInfoElements).map(childBlock => {
@@ -105,8 +107,10 @@
             });
 
             const messageObj = {
+                'employeeName': employeeName,
                 'parentName': parentName,
                 'phoneNumber': phoneNumber,
+                'description': description,
                 'childrenCount': childrenCount,
                 'childrenInfo': children
             };
