@@ -1,0 +1,193 @@
+/* Базовые стили */
+*, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: "TTFirsNeue-Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background-color: #fef5e6; /* Светлый фон для всего сайта */
+    color: #2f3440;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+::selection {
+    background-color: #ff8e70;
+    color: #fff;
+}
+
+/* Стилизация контейнера */
+.container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-top: 5px solid #dd9933; /* Яркая верхняя граница */
+    overflow: hidden; /* Обеспечивает, что дочерние элементы не выходят за пределы скругленных углов */
+}
+
+/* Стилизация заголовка */
+h1 {
+    color: #ff4500;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* Стилизация label */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #8458E3;
+}
+
+/* Стилизация всех текстовых полей */
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+.child-info-block select {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 2px solid #0089F7;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+.child-info-block select:focus {
+    border-color: #dd9933;
+    outline: none;
+}
+
+/* Стили для placeholder */
+input::placeholder {
+    color: #a8a8a8;
+    font-style: italic;
+}
+
+/* Стили для кнопок */
+button {
+    background-color: #936ACD;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+    background-color: #471E80;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для блоков информации о детях */
+#childrenInfo > div {
+    border: 2px dashed #ff8e70;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background-color: #ffefd5;
+    transition: background-color 0.3s;
+}
+
+#childrenInfo > div:hover {
+    background-color: #fff0e6;
+}
+
+/* Стили для блоков информации о ребенке */
+.child-info-block {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px solid #0089F7;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.child-info-block button {
+    background-color: #dd9933;
+}
+
+.child-info-block button:hover {
+    background-color: #ffaf47;
+}
+
+.child-info-block select {
+    padding: 10px;
+    border: 2px solid #0089F7;
+    border-radius: 5px;
+    -webkit-appearance: none; /* Отключаем стандартный стиль для Webkit браузеров */
+    -moz-appearance: none; /* Отключаем стандартный стиль для Firefox браузеров */
+    appearance: none; /* Стандартное свойство для управления внешним видом элементов форм */
+    background-color: white;
+    width: 100%;
+    font-family: inherit; /* Чтобы шрифт совпадал с остальной формой */
+    font-size: inherit;
+    cursor: pointer;
+}
+
+/* Стили для стрелки выпадающего списка */
+.child-info-block select::-ms-expand {
+    display: none; /* Убираем стрелку в IE */
+}
+
+/* Добавляем свою иконку для стрелки выпадающего списка */
+.child-info-block select {
+    background-image: url('/img/down-arrow-svgrepo-com.svg');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 12px 12px;
+}
+
+
+/* Стилизация блоков информации о ребенке */
+.child-info-block {
+    position: relative; /* Для позиционирования кнопки удаления */
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px solid #0089F7;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Стилизация кнопки удаления */
+.remove-child {
+    position: absolute;
+    top: 10px; /* Расположение от верхнего края блока */
+    right: 10px; /* Расположение от правого края блока */
+    border: none;
+    background: url('img/icon-cross-mark.png') no-repeat center center; /* Путь к вашему изображению крестика */
+    background-size: contain; /* Убедитесь, что изображение содержится в пределах кнопки */
+    width: 24px; /* Ширина кнопки */
+    height: 24px; /* Высота кнопки */
+    cursor: pointer;
+    text-indent: 0px; /* Скрываем текст кнопки */
+    overflow: hidden; /* Обрезаем все что выходит за пределы размеров кнопки */
+}
+
+.remove-child:hover {
+    background-image: url('img/pngwing11.png'); /* Путь к изображению крестика при наведении (если есть) */
+}
+
+/* Ваши существующие стили */
+
+/* Стили для заголовка формы с логотипом */
+.form-header {
+    text-align: center; /* Центрируем логотип, если нужно */
+    margin-bottom: 20px; /* Добавляем отступ снизу */
+}
+
+#formLogo {
+    max-width: 100%; /* Чтобы логотип не выходил за пределы контейнера */
+    height: auto; /* Чтобы сохранить пропорции изображения */
+}
