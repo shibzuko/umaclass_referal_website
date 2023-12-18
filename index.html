@@ -13,16 +13,23 @@
                 <img src="img/logo1.svg" alt="Логотип Umaclass" id="formLogo">
             </div>
 
-            <label for="parentName">ФИО Родителя:</label>
+            <label for="employeeName">Имя сотрудника (пригласившего):</label>
+            <input type="text" id="employeeName" name="employeeName" placeholder="" required>
+
+            <label for="parentName">Имя клиента:</label>
             <input type="text" id="parentName" name="parentName" placeholder="Алиев Али Алиевич" required>
 
-            <label for="phoneNumber">Номер Телефона:</label>
+            <label for="phoneNumber">Телефон клиента:</label>
             <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="+7 900 123 45 67" required>
+
+            <label for="description">Описание ситуации:</label>
+            <input type="text" id="description" name="description" placeholder="" required>
+
             <label for="childrenCount">Количество Детей:</label>
             <input type="number" id="childrenCount" name="childrenCount" min="1" placeholder="Количество детей" required>
 
 
-
+            <p>Также вы можете добавить информацию о каждом ребёнке:</p>
             <div id="childrenInfo"></div>
 
             <button type="button" id="addChild">Добавить Ребенка</button>
