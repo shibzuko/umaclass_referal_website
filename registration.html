@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umaclass</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <form id="registrationForm">
+            <div class="form-header">
+                <img src="img/logo1.svg" alt="Логотип Umaclass" id="formLogo">
+            </div>
+
+            <button type="button" id="parentButton">Родитель</button>
+            <button type="button" id="employeeButton">Сотрудник</button>
+
+            <div id="parentFields" style="display: none;">
+                <label for="parentName">ФИО родителя:</label>
+                <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович">
+            </div>
+
+            <div id="employeeFields" style="display: none;">
+                <label for="employeeName">ФИО сотрудника:</label>
+                <input type="text" id="employeeName" name="employeeName" placeholder="Петров Петр Петрович">
+
+                <label for="secretKey">Секретный ключ:</label>
+                <input type="text" id="secretKey" name="secretKey">
+            </div>
+
+            <button type="submit" style="display: none;" id="submitRegistration">Регистрация</button>
+        </form>
+    </div>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const parentButton = document.getElementById('parentButton');
+        const employeeButton = document.getElementById('employeeButton');
+        const parentFields = document.getElementById('parentFields');
+        const employeeFields = document.getElementById('employeeFields');
+        const submitButton = document.getElementById('submitRegistration');
+
+        let selectedRole = '';
+
+        parentButton.addEventListener('click', function() {
+            parentFields.style.display = 'block';
+            employeeFields.style.display = 'none';
+            submitButton.style.display = 'block';
+            selectedRole = 'parent';
+        });
+
+        employeeButton.addEventListener('click', function() {
+            employeeFields.style.display = 'block';
+            parentFields.style.display = 'none';
+            submitButton.style.display = 'block';
+            selectedRole = 'employee';
+        });
+
+        document.getElementById("registrationForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            let registrationData = {};
+
+            if (selectedRole === 'parent') {
+                registrationData = {
+                    role: 'parent',
+                    parentName: document.getElementById('parentName').value
+                };
+            } else if (selectedRole === 'employee') {
+                registrationData = {
+                    role: 'employee',
+                    employeeName: document.getElementById('employeeName').value,
+                    secretKey: document.getElementById('secretKey').value
+                };
+            }
+
+            tg.sendData(JSON.stringify(registrationData));
+            tg.MainButton.setText("Форма отправлена!");
+            tg.MainButton.show();
+            tg.close();
+        });
+    </script>
+</body>
+</html>
