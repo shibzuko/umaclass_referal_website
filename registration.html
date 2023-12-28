@@ -27,15 +27,15 @@
 
         <fieldset class="form-group" id="parentFields" style="display: none;">
             <label for="parentName">ФИО родителя:</label>
-            <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович">
+            <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович" required  minlength="3">
         </fieldset>
 
         <fieldset class="form-group" id="workerFields" style="border: none;">
             <label for="workerName">ФИО сотрудника:</label>
-            <input type="text" id="workerName" name="workerName" placeholder="Петров Петр Петрович">
+            <input type="text" id="workerName" name="workerName" placeholder="Петров Петр Петрович" required  minlength="3">
 
             <label for="secretKey">Секретный ключ:</label>
-            <input type="text" id="secretKey" name="secretKey">
+            <input type="text" id="secretKey" name="secretKey" required>
         </fieldset>
 
         <button type="submit" class="submit-button">Отправить</button>
