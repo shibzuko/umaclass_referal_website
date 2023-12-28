@@ -1,48 +1,32 @@
-// Добавление нового ребенка
-document.getElementById('addChild').addEventListener('click', function() {
-    var childrenInfo = document.getElementById('childrenInfo');
-    var newChildDiv = document.createElement('div');
-    newChildDiv.classList.add('child-info-block');
-    newChildDiv.innerHTML = `
-        <label>Имя Ребенка:</label>
-        <input type="text" name="childName[]" required placeholder="Исмаил">
-
-        <label>Возраст:</label>
-        <input type="number" name="childAge[]" min="4" max="18" required placeholder="14">
-
-        <label>Класс:</label>
-        <select name="childClass[]">
-            <option value="">Выберите класс</option>
-            <option value="preschool">Дошкольник</option>
-            <option value="1">1 класс</option>
-            <option value="2">2 класс</option>
-            <option value="3">3 класс</option>
-            <option value="4">4 класс</option>
-            <option value="5">5 класс</option>
-            <option value="6">6 класс</option>
-            <option value="7">7 класс</option>
-            <option value="8">8 класс</option>
-            <option value="9">9 класс</option>
-            <option value="10">10 класс</option>
-            <option value="11">11 класс</option>
-        </select>
-    </div>
-        <img src="img/pngwing11.png" class="remove-child" alt="Удалить ребенка" />
-    `;
-    childrenInfo.appendChild(newChildDiv);
+document.querySelector('.select-display').addEventListener('click', function() {
+    this.classList.toggle('clicked');
 });
 
-// Функция для удаления блока ребенка
+document.querySelectorAll('.select-options li').forEach(function(li) {
+    li.addEventListener('click', function() {
+        var value = this.getAttribute('data-value');
+        var display = this.closest('.custom-select-wrapper').querySelector('.select-value');
+        display.textContent = this.textContent;
+        var select = this.closest('.custom-select-wrapper').querySelector('.custom-select');
+        select.value = value;
+
+        // Trigger the change event on the select element
+        var event = new Event('change');
+        select.dispatchEvent(event);
+
+        // Hide the options
+        this.parentNode.style.display = 'none';
+    });
+});
+
+// Handle outside click to close the custom select options
 document.addEventListener('click', function(e) {
-    if (e.target && e.target.classList.contains('remove-child')) {
-        e.target.parentNode.remove();
+    if (!e.target.matches('.select-display')) {
+        document.querySelectorAll('.select-options').forEach(function(options) {
+            options.style.display = 'none';
+        });
+        document.querySelectorAll('.select-display').forEach(function(display) {
+            display.classList.remove('clicked');
+        });
     }
-});
-
-
-// Обработка отправки формы
-document.getElementById('registrationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Здесь код для обработки и отправки формы на сервер
-    alert('Форма отправлена');
-});
+}, true);

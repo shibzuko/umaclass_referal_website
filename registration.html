@@ -4,84 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Umaclass</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style_reg.css">
 </head>
 <body>
-    <div class="container">
-        <form id="registrationForm">
-            <div class="form-header">
-                <img src="img/logo1.svg" alt="Логотип Umaclass" id="formLogo">
-            </div>
 
-            <button type="button" id="parentButton">Родитель</button>
-            <button type="button" id="employeeButton">Сотрудник</button>
-
-            <div id="parentFields" style="display: none;">
-                <label for="parentName">ФИО родителя:</label>
-                <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович">
-            </div>
-
-            <div id="employeeFields" style="display: none;">
-                <label for="employeeName">ФИО сотрудника:</label>
-                <input type="text" id="employeeName" name="employeeName" placeholder="Петров Петр Петрович">
-
-                <label for="secretKey">Секретный ключ:</label>
-                <input type="text" id="secretKey" name="secretKey">
-            </div>
-
-            <button type="submit" style="display: none;" id="submitRegistration">Регистрация</button>
-        </form>
+<div class="container">
+    <div class="form-header">
+        <img src="img/logo1.svg" alt="Логотип Umaclass" id="formLogo">
     </div>
+    <form id="registrationForm">
+        <legend>Регистрация в реферальной системе УмаКласс:</legend>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+        <div class="form-check category-button">
+            <input class="form-check-input" type="radio" name="category" id="parentCategory" value="parent" checked>
+            <label class="form-check-label" for="parentCategory">Родитель</label>
+        </div>
 
-        const parentButton = document.getElementById('parentButton');
-        const employeeButton = document.getElementById('employeeButton');
+        <div class="form-check category-button">
+            <input class="form-check-input" type="radio" name="category" id="employeeCategory" value="employee">
+            <label class="form-check-label" for="employeeCategory">Сотрудник</label>
+        </div>
+
+        <fieldset class="form-group" id="parentFields" style="display: none;">
+            <label for="parentName">ФИО родителя:</label>
+            <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович">
+        </fieldset>
+
+        <fieldset class="form-group" id="employeeFields" style="border: none;">
+            <label for="employeeName">ФИО сотрудника:</label>
+            <input type="text" id="employeeName" name="employeeName" placeholder="Петров Петр Петрович">
+
+            <label for="secretKey">Секретный ключ:</label>
+            <input type="text" id="secretKey" name="secretKey">
+        </fieldset>
+
+        <button type="submit" class="submit-button">Отправить</button>
+    </form>
+
+</div>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // Функция для смены отображаемых полей в зависимости от выбранной категории
+    function toggleFields(category) {
         const parentFields = document.getElementById('parentFields');
         const employeeFields = document.getElementById('employeeFields');
-        const submitButton = document.getElementById('submitRegistration');
 
-        let selectedRole = '';
+        parentFields.style.display = category === 'parent' ? 'block' : 'none';
+        employeeFields.style.display = category === 'employee' ? 'block' : 'none';
+    }
 
-        parentButton.addEventListener('click', function() {
-            parentFields.style.display = 'block';
-            employeeFields.style.display = 'none';
-            submitButton.style.display = 'block';
-            selectedRole = 'parent';
+    // Начальная установка видимости полей
+    toggleFields(document.querySelector('input[name="category"]:checked').value);
+
+    // Обработчик изменения выбора категории
+    document.querySelectorAll('input[name="category"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            toggleFields(this.value);
         });
+    });
 
-        employeeButton.addEventListener('click', function() {
-            employeeFields.style.display = 'block';
-            parentFields.style.display = 'none';
-            submitButton.style.display = 'block';
-            selectedRole = 'employee';
-        });
+    // Обработчик отправки формы
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+        e.preventDefault();
 
-        document.getElementById("registrationForm").addEventListener("submit", function(e) {
-            e.preventDefault();
-            let registrationData = {};
+        // Собираем данные формы
+        const form = e.target;
+        const data = new FormData(form);
+        const formDataObj = Object.fromEntries(data.entries());
 
-            if (selectedRole === 'parent') {
-                registrationData = {
-                    role: 'parent',
-                    parentName: document.getElementById('parentName').value
-                };
-            } else if (selectedRole === 'employee') {
-                registrationData = {
-                    role: 'employee',
-                    employeeName: document.getElementById('employeeName').value,
-                    secretKey: document.getElementById('secretKey').value
-                };
-            }
+        // Фильтруем пустые поля
+        const filteredData = Object.fromEntries(Object.entries(formDataObj).filter(([_, v]) => v.trim()));
 
-            tg.sendData(JSON.stringify(registrationData));
-            tg.MainButton.setText("Форма отправлена!");
-            tg.MainButton.show();
-            tg.close();
-        });
-    </script>
+        tg.sendData(JSON.stringify(filteredData));
+        tg.MainButton.setText("Форма отправлена!");
+        tg.MainButton.show();
+        tg.close();
+    });
+</script>
+
 </body>
 </html>
