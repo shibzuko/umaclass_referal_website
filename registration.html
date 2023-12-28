@@ -27,12 +27,12 @@
 
         <fieldset class="form-group" id="parentFields" style="display: none;">
             <label for="parentName">ФИО родителя:</label>
-            <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович" required  minlength="3">
+            <input type="text" id="parentName" name="parentName" placeholder="Иванов Иван Иванович">
         </fieldset>
 
         <fieldset class="form-group" id="workerFields" style="border: none;">
             <label for="workerName">ФИО сотрудника:</label>
-            <input type="text" id="workerName" name="workerName" placeholder="Петров Петр Петрович" required  minlength="3">
+            <input type="text" id="workerName" name="workerName" placeholder="Петров Петр Петрович">
 
             <label for="secretKey">Секретный ключ:</label>
             <input type="text" id="secretKey" name="secretKey" required>
@@ -43,48 +43,77 @@
 
 </div>
 
+
+
+
+
+
+
+
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
     let tg = window.Telegram.WebApp;
     tg.expand();
 
-    // Функция для смены отображаемых полей в зависимости от выбранной категории
-    function toggleFields(category) {
-        const parentFields = document.getElementById('parentFields');
-        const workerFields = document.getElementById('workerFields');
+    const parentCategory = document.getElementById('parentCategory');
+    const workerCategory = document.getElementById('workerCategory');
+    const parentFields = document.getElementById('parentFields'); // Определяем элемент parentFields
+    const workerFields = document.getElementById('workerFields'); // Определяем элемент workerFields
+    const secretKeyField = document.getElementById('secretKey').parentNode; // Получаем родительский элемент поля secretKey
 
-        parentFields.style.display = category === 'parent' ? 'block' : 'none';
-        workerFields.style.display = category === 'worker' ? 'block' : 'none';
+    // Функция для обновления видимости полей
+    function updateFieldsVisibility() {
+        if (parentCategory.checked) {
+            parentFields.style.display = 'block';
+            workerFields.style.display = 'none';
+        } else if (workerCategory.checked) {
+            parentFields.style.display = 'none';
+            workerFields.style.display = 'block';
+        }
     }
 
-    // Начальная установка видимости полей
-    toggleFields(document.querySelector('input[name="category"]:checked').value);
+    // Функция для обновления обязательных полей
+    function updateRequiredFields() {
+        if (parentCategory.checked) {
+            parentFields.querySelector('input').required = true;
+            workerFields.querySelector('input').required = false;
+        } else if (workerCategory.checked) {
+            parentFields.querySelector('input').required = false;
+            workerFields.querySelectorAll('input').forEach(input => input.required = true);
+        }
+    }
 
-    // Обработчик изменения выбора категории
-    document.querySelectorAll('input[name="category"]').forEach(function(radio) {
-        radio.addEventListener('change', function() {
-            toggleFields(this.value);
-        });
+    // Начальное обновление полей
+    updateFieldsVisibility();
+    updateRequiredFields();
+
+    // Добавляем обработчики событий для радиокнопок
+    parentCategory.addEventListener('change', () => {
+        updateFieldsVisibility();
+        updateRequiredFields();
+    });
+
+    workerCategory.addEventListener('change', () => {
+        updateFieldsVisibility();
+        updateRequiredFields();
     });
 
     // Обработчик отправки формы
     document.getElementById("registrationForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
-        // Собираем данные формы
-        const form = e.target;
-        const data = new FormData(form);
-        const formDataObj = Object.fromEntries(data.entries());
+        const formData = new FormData(this);
+        const formDataObj = Object.fromEntries(formData.entries());
 
-        // Фильтруем пустые поля
-        const filteredData = Object.fromEntries(Object.entries(formDataObj).filter(([_, v]) => v.trim()));
-
-        tg.sendData(JSON.stringify(filteredData));
+        // Отправляем данные в телеграм
+        tg.sendData(JSON.stringify(formDataObj));
         tg.MainButton.setText("Форма отправлена!");
         tg.MainButton.show();
         tg.close();
     });
 </script>
+
 
 </body>
 </html>
