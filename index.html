@@ -114,6 +114,10 @@
                 'childrenCount': childrenCount,
                 'childrenInfo': children
             };
+
+            // Добавляем статическую информацию
+            formDataObj.webform = 'lead';
+
             tg.sendData(JSON.stringify(messageObj));
             tg.MainButton.setText("Форма отправлена!");
             tg.MainButton.show();
