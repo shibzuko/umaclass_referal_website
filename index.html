@@ -13,8 +13,8 @@
                 <img src="img/logo1.svg" alt="Логотип Umaclass" id="formLogo">
             </div>
 
-            <label for="employeeName">ФИО пригласившего:</label>
-            <input type="text" id="employeeName" name="employeeName" placeholder="" required>
+<!--            <label for="employeeName">ФИО пригласившего:</label>-->
+<!--            <input type="text" id="employeeName" name="employeeName" placeholder="" required>-->
 
             <label for="parentName">ФИО клиента:</label>
             <input type="text" id="parentName" name="parentName" placeholder="Алиев Али Алиевич" required>
@@ -92,7 +92,7 @@
             e.preventDefault();
 
             const form = e.target;
-            const employeeName = form['employeeName'].value;
+<!--            const employeeName = form['employeeName'].value;-->
             const parentName = form['parentName'].value;
             const phoneNumber = form['phoneNumber'].value;
             const description = form['description'].value;
@@ -107,7 +107,7 @@
             });
 
             const messageObj = {
-                'employeeName': employeeName,
+<!--                'employeeName': employeeName,-->
                 'parentName': parentName,
                 'phoneNumber': phoneNumber,
                 'description': description,
