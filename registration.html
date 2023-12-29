@@ -58,46 +58,32 @@
 
     const parentCategory = document.getElementById('parentCategory');
     const workerCategory = document.getElementById('workerCategory');
-    const parentFields = document.getElementById('parentFields'); // Определяем элемент parentFields
-    const workerFields = document.getElementById('workerFields'); // Определяем элемент workerFields
-    const secretKeyField = document.getElementById('secretKey').parentNode; // Получаем родительский элемент поля secretKey
+    const parentFields = document.getElementById('parentFields');
+    const workerFields = document.getElementById('workerFields');
 
-    // Функция для обновления видимости полей
-    function updateFieldsVisibility() {
+    // Функция для обновления видимости и обязательности полей
+    function updateFields() {
         if (parentCategory.checked) {
             parentFields.style.display = 'block';
+            Array.from(parentFields.querySelectorAll('input')).forEach(input => input.required = true);
+
             workerFields.style.display = 'none';
+            Array.from(workerFields.querySelectorAll('input')).forEach(input => input.required = false);
         } else if (workerCategory.checked) {
             parentFields.style.display = 'none';
-            workerFields.style.display = 'block';
-        }
-    }
+            Array.from(parentFields.querySelectorAll('input')).forEach(input => input.required = false);
 
-    // Функция для обновления обязательных полей
-    function updateRequiredFields() {
-        if (parentCategory.checked) {
-            parentFields.querySelector('input').required = true;
-            workerFields.querySelector('input').required = false;
-        } else if (workerCategory.checked) {
-            parentFields.querySelector('input').required = false;
-            workerFields.querySelectorAll('input').forEach(input => input.required = true);
+            workerFields.style.display = 'block';
+            Array.from(workerFields.querySelectorAll('input')).forEach(input => input.required = true);
         }
     }
 
     // Начальное обновление полей
-    updateFieldsVisibility();
-    updateRequiredFields();
+    updateFields();
 
     // Добавляем обработчики событий для радиокнопок
-    parentCategory.addEventListener('change', () => {
-        updateFieldsVisibility();
-        updateRequiredFields();
-    });
-
-    workerCategory.addEventListener('change', () => {
-        updateFieldsVisibility();
-        updateRequiredFields();
-    });
+    parentCategory.addEventListener('change', updateFields);
+    workerCategory.addEventListener('change', updateFields);
 
     // Обработчик отправки формы
     document.getElementById("registrationForm").addEventListener("submit", function(e) {
@@ -113,6 +99,7 @@
         tg.close();
     });
 </script>
+
 
 
 </body>
