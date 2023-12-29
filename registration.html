@@ -92,6 +92,9 @@
         const formData = new FormData(this);
         const formDataObj = Object.fromEntries(formData.entries());
 
+        // Добавляем статическую информацию
+        formDataObj.webform = 'registration';
+
         // Отправляем данные в телеграм
         tg.sendData(JSON.stringify(formDataObj));
         tg.MainButton.setText("Форма отправлена!");
