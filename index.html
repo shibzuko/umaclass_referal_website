@@ -112,11 +112,10 @@
                 'phoneNumber': phoneNumber,
                 'description': description,
                 'childrenCount': childrenCount,
-                'childrenInfo': children
+                'childrenInfo': children,
+                'webform': 'lead'
             };
 
-            // Добавляем статическую информацию
-            formDataObj.webform = 'lead';
 
             tg.sendData(JSON.stringify(messageObj));
             tg.MainButton.setText("Форма отправлена!");
